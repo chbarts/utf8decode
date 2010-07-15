@@ -68,7 +68,7 @@ int valid_sequence(unsigned char seq[])
 {
     int n, i;
 
-    if ((n = seqlen(seq)) == -1)
+    if ((n = seqlen(seq[0])) == -1)
         return 0;
 
     if (n == 1)
@@ -99,7 +99,7 @@ int sequence_to_ucs4(unsigned char seq[], uint32_t * cdpt)
 
     *cdpt = 0;
 
-    if ((n = seqlen(seq)) == 1) {
+    if ((n = seqlen(seq[0])) == 1) {
         *cdpt = seq[0];
         return 1;
     }
