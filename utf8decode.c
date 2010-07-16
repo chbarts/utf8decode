@@ -74,7 +74,7 @@ int valid_sequence(unsigned char seq[])
     if (n == 1)
         return 1;
 
-    for (i = 0; i < n; i++) {
+    for (i = 1; i < n; i++) {
         if ((seq[i] & 0xc0) != 0x80)
             return 0;
     }
