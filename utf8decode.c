@@ -102,21 +102,28 @@ int sequence_to_ucs4(unsigned char seq[], uint32_t * cdpt)
 
     *cdpt = 0;
 
-    if ((n = seqlen(seq[0])) == 1) {
+    switch (n = seqlen(seq[0])) {
+    case 1:
         *cdpt = seq[0];
         return 1;
+    case 2:
+        *cdpt = seq[0] & 0x1f;
+        break;
+    case 3:
+        *cdpt = seq[0] & 0x0f;
+        break;
+    case 4:
+        *cdpt = seq[0] & 0x07;
+        break;
+    case 5:
+        *cdpt = seq[0] & 0x03;
+        break;
+    case 6:
+        *cdpt = seq[0] & 0x01;
+        break;
+    default:
+        return 0;
     }
-
-    if (n == 2)
-        *cdpt = seq[0] & ~0x1f;
-    else if (n == 3)
-        *cdpt = seq[0] & ~0xc0;
-    else if (n == 4)
-        *cdpt = seq[0] & ~0xf0;
-    else if (n == 5)
-        *cdpt = seq[0] & ~0xf8;
-    else
-        *cdpt = seq[0] & ~0xfc;
 
     for (i = 1; i < n; i++) {
         *cdpt <<= 6;
