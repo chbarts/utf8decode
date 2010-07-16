@@ -123,3 +123,23 @@ int sequence_to_ucs4(unsigned char seq[], uint32_t * cdpt)
     *cdpt >>= 2;
     return 1;
 }
+
+/* Find the end of the sequence beginning at beg in the nul-terminated
+ * string pointed to by str[].
+ *
+ * Returns the position just past the end of the next sequence, or 0 if
+ * anything was hinky. EXCEPT: Will never point past a nul.
+ */
+size_t find_seq_end(unsigned char str[], size_t beg)
+{
+    if (!str)
+        return 0;
+
+    if (str[beg] == '\0')
+        return beg;
+
+    if (!valid_sequence(str + beg))
+        return 0;
+
+    return beg + seqlen(str[beg]);
+}
