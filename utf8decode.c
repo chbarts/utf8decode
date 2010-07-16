@@ -97,6 +97,9 @@ int sequence_to_ucs4(unsigned char seq[], uint32_t * cdpt)
     if (!valid_sequence(seq))
         return 0;
 
+    if (!cdpt)
+        return 0;
+
     *cdpt = 0;
 
     if ((n = seqlen(seq[0])) == 1) {
@@ -116,11 +119,10 @@ int sequence_to_ucs4(unsigned char seq[], uint32_t * cdpt)
         *cdpt = seq[0] & ~0xfc;
 
     for (i = 1; i < n; i++) {
-        *cdpt <<= 8;
-        *cdpt |= (seq[i] & ~0x80) << 2;
+        *cdpt <<= 6;
+        *cdpt |= seq[i] & 0x3f;
     }
 
-    *cdpt >>= 2;
     return 1;
 }
 

@@ -1,9 +1,11 @@
 #include "utf8decode.h"
+#include <inttypes.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 int main(int argc, char *argv[])
 {
+    uint32_t cdpt;
     size_t k, n, m;
     int i, l;
 
@@ -23,11 +25,17 @@ int main(int argc, char *argv[])
             l = seqlen(argv[i][n]);
             m = find_seq_end(argv[i], n);
 
+            if (!sequence_to_ucs4(argv[i] + n, &cdpt)) {
+                fprintf(stderr, "sequence_to_ucs4() failed\n");
+                exit(EXIT_FAILURE);
+            }
+
             printf("%llu: %d:", (unsigned long long int) n, l);
 
             for (k = n; k < m; k++)
                 printf(" %02x", (unsigned char) argv[i][k]);
 
+            printf(": %08x", (unsigned int) cdpt);
             printf(": %s\n", argv[i] + n);
 
             puts("-");
