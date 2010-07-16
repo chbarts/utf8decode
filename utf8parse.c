@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
             l = seqlen(argv[i][n]);
             m = find_seq_end(argv[i], n);
 
-            printf("%llu: %d:", (unsigned long long int) m, l);
+            printf("%llu: %d:", (unsigned long long int) n, l);
 
             for (k = n; k < m; k++)
                 printf(" %02x", (unsigned char) argv[i][k]);
