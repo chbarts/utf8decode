@@ -40,8 +40,10 @@ int next_sequence(FILE * fd, unsigned char seq[])
 {
     int i, n;
 
-    if ((seq[0] = getc(fd)) == EOF)
+    if ((seq[0] = getc(fd)) == EOF) {
+        seq[0] = 0;
         return -1;
+    }
 
     if ((n = seqlen(seq[0])) == -1)
         return -1;
