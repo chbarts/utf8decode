@@ -9,9 +9,10 @@ int main(void)
 
     for (cdpt = 0; cdpt <= 0xffff; cdpt++) {
         n = utf8encode(cdpt, buf);
-        printf("%04x: %d: ", cdpt, n);
+        printf("%04x: %d:", cdpt, n);
         for (i = 0; i < n; i++)
-            printf("%02x ", buf[i]);
+            printf(" %02x", buf[i]);
+        printf(": ");
         fwrite(buf, 1, n, stdout);
         puts("");
     }
