@@ -11,7 +11,7 @@ int main(void)
         n = utf8encode(cdpt, buf);
         printf("%04x\t%d\t%02x", cdpt, n, buf[0]);
         for (i = 1; i < n; i++)
-            printf("%02x", buf[i]);
+            printf(" %02x", buf[i]);
         printf("\t");
         fwrite(buf, 1, n, stdout);
         puts("");
