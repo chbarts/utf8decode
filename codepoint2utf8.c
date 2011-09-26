@@ -1,7 +1,5 @@
 #include <stdio.h>
-#include <errno.h>
 #include <stdlib.h>
-#include <limits.h>
 #include "utf8encode.h"
 
 int main(int argc, char *argv[])
@@ -17,8 +15,7 @@ int main(int argc, char *argv[])
     }
 
     for (i = 1; i < argc; i++) {
-        if (((codepoint = strtoul(argv[i], &endptr, 0)) == ULONG_MAX)
-            && (errno == ERANGE)) {
+        if ((codepoint = strtoul(argv[i], &endptr, 0)) > 4294967295U) {
             fprintf(stderr, "%s: %s out of range\n", argv[0], argv[i]);
             continue;
         }
