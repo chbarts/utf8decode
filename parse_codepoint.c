@@ -41,13 +41,13 @@ int parse_codepoint(const char in[], uint32_t * cp)
 
     if ((len > 2) && ((in[0] == 'U') || (in[0] == 'u')) && (in[1] == '+')
         && isxnum(in + 2, len - 2)) {
-        *cp = (uint32_t) strtol(in + 2, NULL, 16);
+        *cp = (uint32_t) strtoul(in + 2, NULL, 16);
     } else if ((len > 2) && (in[0] == '0')
                && ((in[1] == 'x') || (in[1] == 'X'))
                && isxnum(in + 2, len - 2)) {
-        *cp = (uint32_t) strtol(in, NULL, 16);
+        *cp = (uint32_t) strtoul(in, NULL, 16);
     } else if (isdnum(in, len)) {
-        *cp = (uint32_t) strtol(in, NULL, 0);
+        *cp = (uint32_t) strtoul(in, NULL, 0);
     } else {
         return -1;
     }
