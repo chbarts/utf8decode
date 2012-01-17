@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <errno.h>
-#include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -52,7 +51,7 @@ int parse_codepoint(const char in[], unsigned long *cp)
         return -1;
     }
 
-    if (*cp > UINT_MAX)
+    if (*cp > 4294967295UL)
         return -2;
 
     return 0;
