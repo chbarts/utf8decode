@@ -1,25 +1,24 @@
+#include "parse_codepoint.h"
 #include "utf8encode.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 static char *pname;
 
-static unsigned long read_codepoint(char *str)
+static void get_codepoint(const char in[], unsigned long *cp)
 {
-    char *endptr;
-    unsigned long res;
+   int res;
 
-    if ((res = strtoul(str, &endptr, 0)) > 4294967295U) {
-        fprintf(stderr, "%s: %s is out of range\n", pname, str);
-        exit(EXIT_FAILURE);
-    }
-
-    if (endptr == str) {
-        fprintf(stderr, "%s: %s is invalid\n", pname, str);
-        exit(EXIT_FAILURE);
-    }
-
-    return res;
+   if ((res = parse_codepoint(in, cp)) < 0) {
+      switch (res) {
+      case -1:
+         fprintf(stderr, "%s: invalid codepoint %s\n", pname, in);
+         exit(EXIT_FAILURE);
+      case -2:
+         fprintf(stderr, "%s: codepoint %s out of range\n", pname, in);
+         exit(EXIT_FAILURE);
+      }
+   }
 }
 
 int main(int argc, char *argv[])
@@ -35,11 +34,11 @@ int main(int argc, char *argv[])
 
     pname = argv[0];
 
-    if (argc == 2)
-        high = read_codepoint(argv[1]);
-    else {                      /* argc == 3 */
-        low = read_codepoint(argv[1]);
-        high = read_codepoint(argv[2]);
+    if (argc == 2) {
+       get_codepoint(argv[1], &high);
+    } else {                      /* argc == 3 */
+       get_codepoint(argv[1], &low);
+       get_codepoint(argv[2], &high);
     }
 
     if (!(low <= high)) {
