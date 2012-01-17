@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     }
 
     if (!(low <= high)) {
-        fprintf(stderr, "%s: invalid range [%d, %d]\n", argv[0], low,
+        fprintf(stderr, "%s: invalid range [%lu, %lu]\n", argv[0], low,
                 high);
         exit(EXIT_FAILURE);
     }
