@@ -5,7 +5,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <inttypes.h>
 
 static bool isxnum(const char in[], size_t len)
 {
@@ -33,7 +32,7 @@ static bool isdnum(const char in[], size_t len)
     return true;
 }
 
-int parse_codepoint(const char in[], uint32_t * cp)
+int parse_codepoint(const char in[], unsigned long *cp)
 {
     size_t len = strlen(in);
 
@@ -42,13 +41,13 @@ int parse_codepoint(const char in[], uint32_t * cp)
 
     if ((len > 2) && ((in[0] == 'U') || (in[0] == 'u')) && (in[1] == '+')
         && isxnum(in + 2, len - 2)) {
-        *cp = (uint32_t) strtoul(in + 2, NULL, 16);
+        *cp = strtoul(in + 2, NULL, 16);
     } else if ((len > 2) && (in[0] == '0')
                && ((in[1] == 'x') || (in[1] == 'X'))
                && isxnum(in + 2, len - 2)) {
-        *cp = (uint32_t) strtoul(in, NULL, 16);
+        *cp = strtoul(in, NULL, 16);
     } else if (isdnum(in, len)) {
-        *cp = (uint32_t) strtoul(in, NULL, 0);
+        *cp = strtoul(in, NULL, 0);
     } else {
         return -1;
     }
