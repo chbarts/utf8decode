@@ -38,7 +38,8 @@ int parse_codepoint(const char in[], unsigned long *cp)
     if (len == 0)
         return -1;
 
-    if ((len > 2) && ((in[0] == 'U') || (in[0] == 'u')) && (in[1] == '+')
+    if ((len > 2) && ((in[0] == 'U') || (in[0] == 'u'))
+        && ((in[1] == '+') || (in[1] == '-'))
         && isxnum(in + 2, len - 2)) {
         *cp = strtoul(in + 2, NULL, 16);
     } else if ((len > 2) && (in[0] == '0')
