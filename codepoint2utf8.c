@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     }
 
     for (i = 1; i < argc; i++) {
-        if ((res = parse_codepoint(argv[i], (uint32_t *) & codepoint)) < 0) {
+        if ((res = parse_codepoint(argv[i], &codepoint)) < 0) {
             switch (res) {
             case -1:
                 fprintf(stderr, "%s: invalid codepoint %s.\n", argv[0],
