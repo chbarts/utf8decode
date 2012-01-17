@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "utf8encode.h"
+#include "parse_codepoint.h"
 
 int main(int argc, char *argv[])
 {
     unsigned long int codepoint;
     unsigned char buf[6];
-    char *endptr = NULL;
-    int i, j, len;
+    int i, j, len, res;
 
     if (argc < 2) {
         fprintf(stderr, "usage: %s num...\n", argv[0]);
@@ -15,13 +15,18 @@ int main(int argc, char *argv[])
     }
 
     for (i = 1; i < argc; i++) {
-        if ((codepoint = strtoul(argv[i], &endptr, 0)) > 4294967295U) {
-            fprintf(stderr, "%s: %s out of range\n", argv[0], argv[i]);
-            continue;
-        }
+        if ((res = parse_codepoint(argv[i], (uint32_t *) & codepoint)) < 0) {
+            switch (res) {
+            case -1:
+                fprintf(stderr, "%s: invalid codepoint %s.\n", argv[0],
+                        argv[i]);
+                break;
+            case -2:
+                fprintf(stderr, "%s: codepointf %s too large.\n", argv[0],
+                        argv[i]);
+                break;
+            }
 
-        if (endptr == argv[i]) {
-            fprintf(stderr, "%s: %s invalid\n", argv[0], argv[i]);
             continue;
         }
 
