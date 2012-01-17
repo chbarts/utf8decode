@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
                         argv[i]);
                 break;
             case -2:
-                fprintf(stderr, "%s: codepointf %s too large.\n", argv[0],
+                fprintf(stderr, "%s: codepoint %s too large.\n", argv[0],
                         argv[i]);
                 break;
             }
