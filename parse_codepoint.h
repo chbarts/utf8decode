@@ -8,4 +8,4 @@
  */
 int parse_codepoint(const char in[], uint32_t * cp);
 
-#endif /* PARSE_CODEPOINT_H */
+#endif                          /* PARSE_CODEPOINT_H */
