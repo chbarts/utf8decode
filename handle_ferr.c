@@ -17,12 +17,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with utf8decode.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef PARSE_CODEPOINT_H
-#define PARSE_CODEPOINT_H
+#include <stdio.h>
+#include <limits.h>
 
-/* Verify that in points to a codepoint, and, if so, store it in cp and return 0.
- * Otherwise, return -1 on a malformed codepoint, and -2 on a codepoint that's too large.
- */
-int parse_codepoint(const char in[], unsigned long *cp);
+void handle_ferr(char *fname, char *pname)
+{
+#define MSG "%s: error on %s"
+    char buf[2 * PATH_MAX + sizeof(MSG) + 1];
 
-#endif                          /* PARSE_CODEPOINT_H */
+    snprintf(buf, sizeof(buf), MSG, pname, fname);
+    perror(buf);
+}
