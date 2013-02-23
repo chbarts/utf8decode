@@ -25,3 +25,6 @@ utf8file: utf8file.o handle_ferr.o utf8decode.o
 
 utf8parse: utf8parse.o utf8decode.o
 	$(CC) -o utf8parse utf8parse.o utf8decode.o $(CFLAGS)
+
+isutf8: isutf8.o handle_ferr.o utf8decode.o
+	$(CC) -o isutf8 isutf8.o handle_ferr.o utf8decode.o $(CFLAGS)
