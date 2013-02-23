@@ -3,7 +3,7 @@ CFLAGS=-Os
 DEPS=utf8encode.h utf8decode.h parse_codepoint.h handle_ferr.h 
 OBJ=utf8encode.o utf8decode.o parse_codepoint.o handle_ferr.o
 
-all: codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse 
+all: codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
