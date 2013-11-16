@@ -39,14 +39,9 @@ static void dofile(FILE * fin, char fname[])
 
     if (!valid_sequence(seq) && !feof(fin)) {
         fprintf(stderr,
-                "invalid UTF-8 sequence at %llu (byte %llu) in %s\n",
+                "invalid UTF-8 sequence at line %llu (byte %llu) in %s\n",
                 (unsigned long long int) l, (unsigned long long int) n,
                 fname);
-
-        if (fin != stdin)
-            fclose(fin);
-
-        exit(EXIT_FAILURE);
     }
 }
 
