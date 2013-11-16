@@ -27,7 +27,7 @@ along with utf8decode.  If not, see <http://www.gnu.org/licenses/>.  */
 static void dofile(FILE * fin, char fname[])
 {
     unsigned char seq[7];
-    size_t n = 0, l = 0;
+    size_t n = 1, l = 1;
 
     memset(seq, '\0', sizeof(seq) * sizeof(seq[0]));
 
