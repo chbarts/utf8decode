@@ -28,3 +28,6 @@ utf8parse: utf8parse.o utf8decode.o
 
 isutf8: isutf8.o handle_ferr.o utf8decode.o
 	$(CC) -o isutf8 isutf8.o handle_ferr.o utf8decode.o $(CFLAGS)
+
+clean:
+	rm codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 $(OBJ)
