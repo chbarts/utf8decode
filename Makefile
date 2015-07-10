@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Os
+CFLAGS=-O3 -march=native
 DEPS=utf8encode.h utf8decode.h parse_codepoint.h handle_ferr.h 
 OBJ=utf8encode.o utf8decode.o parse_codepoint.o handle_ferr.o
 
