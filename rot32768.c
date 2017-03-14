@@ -40,6 +40,7 @@ static void dofile(FILE *inf, char name[])
    unsigned char seq[7];
    uint32_t cdpt;
    size_t n = 0;
+   size_t l = 0;
    int len;
 
    memset(seq, '\0', sizeof(seq) * sizeof(seq[0]));
@@ -47,14 +48,16 @@ static void dofile(FILE *inf, char name[])
    while (next_sequence(inf, seq) != -1) {
       n += seqlen(seq[0]);
       sequence_to_ucs4(seq, &cdpt);
+      if ('\n' == cdpt)
+         l++;
       cdpt = rot(cdpt);
       len = utf8encode(cdpt, (uint8_t *) seq);
       fwrite(seq, 1, len, stdout);
    }
 
     if (!valid_sequence(seq) && !feof(inf))
-        fprintf(stderr, "rot32768: invalid UTF-8 sequence at %llu in %s\n",
-                (unsigned long long int) n, name);
+        fprintf(stderr, "rot32768: invalid UTF-8 sequence at line %llu (codepoint %llu) in %s\n",
+                (unsigned long long int) l, (unsigned long long int) n, name);
 }
 
 int main(int argc, char *argv[])
