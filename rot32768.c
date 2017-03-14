@@ -52,9 +52,9 @@ static void dofile(FILE *inf, char name[])
       fwrite(seq, 1, len, stdout);
    }
 
-    if (!valid_sequence(seq) && !feof(fin))
+    if (!valid_sequence(seq) && !feof(inf))
         fprintf(stderr, "rot32768: invalid UTF-8 sequence at %llu in %s\n",
-                (unsigned long long int) n, fname);
+                (unsigned long long int) n, name);
 }
 
 int main(int argc, char *argv[])
