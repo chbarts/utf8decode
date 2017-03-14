@@ -27,85 +27,87 @@ along with utf8decode.  If not, see <http://www.gnu.org/licenses/>.  */
 
 static uint32_t rot(uint32_t in)
 {
-   uint32_t res;
-   int plane;
+    uint32_t res;
+    int plane;
 
-   plane = in/65536;
-   res = (in + 32768) % 65536;
-   return (res + plane*65536);
+    plane = in / 65536;
+    res = (in + 32768) % 65536;
+    return (res + plane * 65536);
 }
 
-static void dofile(FILE *inf, char name[])
+static void dofile(FILE * inf, char name[])
 {
-   unsigned char seq[7];
-   uint32_t cdpt;
-   size_t n = 0;
-   size_t l = 0;
-   int len;
+    unsigned char seq[7];
+    uint32_t cdpt;
+    size_t n = 0;
+    size_t l = 0;
+    int len;
 
-   memset(seq, '\0', sizeof(seq) * sizeof(seq[0]));
+    memset(seq, '\0', sizeof(seq) * sizeof(seq[0]));
 
-   while (next_sequence(inf, seq) != -1) {
-      n += seqlen(seq[0]);
-      sequence_to_ucs4(seq, &cdpt);
-      if ('\n' == cdpt)
-         l++;
-      cdpt = rot(cdpt);
-      len = utf8encode(cdpt, (uint8_t *) seq);
-      fwrite(seq, 1, len, stdout);
-   }
+    while (next_sequence(inf, seq) != -1) {
+        n += seqlen(seq[0]);
+        sequence_to_ucs4(seq, &cdpt);
+        if ('\n' == cdpt)
+            l++;
+        cdpt = rot(cdpt);
+        len = utf8encode(cdpt, (uint8_t *) seq);
+        fwrite(seq, 1, len, stdout);
+    }
 
     if (!valid_sequence(seq) && !feof(inf))
-        fprintf(stderr, "rot32768: invalid UTF-8 sequence at line %llu (codepoint %llu) in %s\n",
-                (unsigned long long int) l, (unsigned long long int) n, name);
+        fprintf(stderr,
+                "rot32768: invalid UTF-8 sequence at line %llu (codepoint %llu) in %s\n",
+                (unsigned long long int) l, (unsigned long long int) n,
+                name);
 }
 
 int main(int argc, char *argv[])
 {
-   FILE *inf;
-   int i = 1;
+    FILE *inf;
+    int i = 1;
 
-   if (1 == argc) {
-      dofile(stdin, "stdin");
-      return 0;
-   }
+    if (1 == argc) {
+        dofile(stdin, "stdin");
+        return 0;
+    }
 
-   if (!strcmp(argv[1], "--")) {
-      i = 2;
-      goto loop;
-   }
+    if (!strcmp(argv[1], "--")) {
+        i = 2;
+        goto loop;
+    }
 
-   if (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h")) {
-      printf("usage: %s [files...]\n", argv[0]);
-      puts("Rotates Unicode codepoints (UTF-8 encoded only) such that they stay within their plane.");
-      puts("Self-reversible, the same way rot13 is");
-      return 0;
-   }
+    if (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h")) {
+        printf("usage: %s [files...]\n", argv[0]);
+        puts("Rotates Unicode codepoints (UTF-8 encoded only) such that they stay within their plane.");
+        puts("Self-reversible, the same way rot13 is");
+        return 0;
+    }
 
-   if (!strcmp(argv[1], "--version") || !strcmp(argv[1], "-v")) {
-      puts("rot32768 version 1.0");
-      puts("Chris Barts, 2017. Released under the GPL Version 3.0 or later");
-      return 0;
-   }
+    if (!strcmp(argv[1], "--version") || !strcmp(argv[1], "-v")) {
+        puts("rot32768 version 1.0");
+        puts("Chris Barts, 2017. Released under the GPL Version 3.0 or later");
+        return 0;
+    }
 
-loop:
-   for (; i < argc; i++) {
-      if ((inf = fopen(argv[i], "rb")) == NULL) {
-         handle_ferr(argv[i], "rot32768");
-         continue;
-      }
+  loop:
+    for (; i < argc; i++) {
+        if ((inf = fopen(argv[i], "rb")) == NULL) {
+            handle_ferr(argv[i], "rot32768");
+            continue;
+        }
 
-      dofile(inf, argv[i]);
+        dofile(inf, argv[i]);
 
-      if (ferror(inf)) {
-         handle_ferr(argv[i], "rot32768");
-         fclose(inf);
-         continue;
-      }
+        if (ferror(inf)) {
+            handle_ferr(argv[i], "rot32768");
+            fclose(inf);
+            continue;
+        }
 
-      if (fclose(inf) == EOF)
-         handle_ferr(argv[i], "rot32768");
-   }
+        if (fclose(inf) == EOF)
+            handle_ferr(argv[i], "rot32768");
+    }
 
-   return 0;
+    return 0;
 }
