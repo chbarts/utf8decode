@@ -57,7 +57,7 @@ static void dofile(FILE * inf, char name[])
 
     if (!valid_sequence(seq) && !feof(inf))
         fprintf(stderr,
-                "rot32768: invalid UTF-8 sequence at byte %llu (codepoint %llu) in %s\n",
+                "rot32768: invalid UTF-8 sequence at line %llu (byte %llu) in %s\n",
                 (unsigned long long int) l, (unsigned long long int) n,
                 name);
 }
