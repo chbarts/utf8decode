@@ -3,8 +3,8 @@
 #include "utf8encode.h"
 #include "utf8decode.h"
 
-#define MAGICUC 120003
-#define MAGICLC 119997
+#define MAGICUC 120107
+#define MAGICLC 120101
 
 static int dofile(FILE * inf)
 {
