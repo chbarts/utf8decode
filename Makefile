@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-O3 -march=native -flto
 DEPS=utf8encode.h utf8decode.h parse_codepoint.h handle_ferr.h 
 
-all: codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768
+all: codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768 fraktur
 
 codepoint2utf8: codepoint2utf8.c parse_codepoint.c utf8encode.c
 	$(CC) -o codepoint2utf8 codepoint2utf8.c parse_codepoint.c utf8encode.c $(CFLAGS)
@@ -28,5 +28,8 @@ isutf8: isutf8.c handle_ferr.c utf8decode.c
 rot32768: rot32768.c handle_ferr.c utf8decode.c utf8encode.c
 	$(CC) -o rot32768 rot32768.c handle_ferr.c utf8decode.c utf8encode.c $(CFLAGS)
 
+fraktur: fraktur.c utf8encode.c utf8decode.c
+	$(CC) -o fraktur fraktur.c utf8encode.c utf8decode.c $(CFLAGS)
+
 clean:
-	rm codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768
+	rm codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768 fraktur
