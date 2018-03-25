@@ -1,10 +1,42 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include "utf8encode.h"
 #include "utf8decode.h"
 
 #define MAGICUC 120107
 #define MAGICLC 120101
+
+static int undofile(FILE * inf)
+{
+    int slen;
+    uint8_t seq[6];
+    uint32_t cdpt;
+
+    while (next_sequence(inf, seq) != -1) {
+        if (!valid_sequence(seq)) {
+            return -2;
+        }
+
+        sequence_to_ucs4(seq, &cdpt);
+
+        if ((cdpt >= ('A' + MAGICUC)) && (cdpt <= ('Z' + MAGICUC))) {
+            cdpt -= MAGICUC;
+        } else if ((cdpt >= ('a' + MAGICLC)) && (cdpt <= ('z' + MAGICLC))) {
+            cdpt -= MAGICLC;
+        }
+
+        slen = utf8encode(cdpt, seq);
+
+        fwrite(seq, 1, slen, stdout);
+    }
+
+    if (feof(inf)) {
+        return 0;
+    }
+
+    return -1;
+}
 
 static int dofile(FILE * inf)
 {
@@ -39,11 +71,37 @@ static int dofile(FILE * inf)
 
 int main(int argc, char *argv[])
 {
-    int i;
+    int i = 1, u = 0, r;
     FILE *inf;
 
-    if (argc == 1) {
-        if (dofile(stdin) == -2) {
+    if (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h")) {
+        puts("fraktur [-u|--undo] [files...]");
+        puts("Convert normal text to Fraktur. With --undo, undoes this operation.");
+        return 0;
+    }
+
+    if (!strcmp(argv[1], "--version") || !strcmp(argv[1], "-v")) {
+        puts("fraktur version 1.0");
+        return 0;
+    }
+
+    if (!strcmp(argv[1], "--")) {
+        i = 2;
+    }
+
+    if (!strcmp(argv[1], "--undo") || !strcmp(argv[1], "-u")) {
+        i = 2;
+        u = 1;
+    }
+
+    if (argc == i) {
+        if (u == 0) {
+            r = dofile(stdin);
+        } else {
+            r = undofile(stdin);
+        }
+
+        if (r == -2) {
             fprintf(stderr, "%s: Bad UTF-8 on stdin!\n", argv[0]);
             exit(EXIT_FAILURE);
         } else {
@@ -51,16 +109,24 @@ int main(int argc, char *argv[])
         }
     }
 
-    for (i = 1; i < argc; i++) {
+    for (; i < argc; i++) {
         if ((inf = fopen(argv[i], "rb")) == NULL) {
             perror(argv[i]);
             continue;
         }
 
-        switch (dofile(inf)) {
+        if (u == 0) {
+            r = dofile(inf);
+        } else {
+            r = undofile(inf);
+        }
+
+        switch (r) {
         case -2:
             fprintf(stderr, "%s: Bad UTF-8 in file %s\n", argv[0],
                     argv[i]);
+            fclose(inf);
+            break;
         case -1:
             perror(argv[i]);
         default:
