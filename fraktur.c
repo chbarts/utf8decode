@@ -74,6 +74,15 @@ int main(int argc, char *argv[])
     int i = 1, u = 0, r;
     FILE *inf;
 
+    if (1 == argc) {
+        if (dofile(stdin) == -2) {
+            fprintf(stderr, "%s: Bad UTF-8 on stdin!\n", argv[0]);
+            exit(EXIT_FAILURE);
+        } else {
+            return 0;
+        }
+    }
+
     if (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h")) {
         puts("fraktur [-u|--undo] [files...]");
         puts("Convert normal text to Fraktur. With --undo, undoes this operation.");
