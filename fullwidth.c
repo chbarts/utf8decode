@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include "utf8encode.h"
 #include "utf8decode.h"
-#include "handle_ferr.h"
 
 #define MAGIC 65248
 #define SPACE 0x3000
