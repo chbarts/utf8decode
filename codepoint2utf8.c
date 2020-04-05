@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
         for (j = 1; j < len; j++)
             printf(" %02x", buf[j]);
 
-        printf("\t%08x\n", codepoint);
+        printf("\t%08lx\n", codepoint);
     }
 
     return 0;
