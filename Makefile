@@ -31,5 +31,8 @@ rot32768: rot32768.c handle_ferr.c utf8decode.c utf8encode.c
 fraktur: fraktur.c utf8encode.c utf8decode.c
 	$(CC) -o fraktur fraktur.c utf8encode.c utf8decode.c $(CFLAGS)
 
+fullwidth: fullwidth.c utf8encode.c utf8decode.c
+	$(CC) -o fullwidth fullwidth.c utf8encode.c utf8decode.c $(CFLAGS)
+
 clean:
-	rm codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768 fraktur
+	rm codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768 fraktur fullwidth
