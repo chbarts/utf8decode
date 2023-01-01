@@ -59,7 +59,7 @@ static int dofile(FILE * inf)
         } else if ((cdpt >= 'a') && (cdpt <= 'z')) {
             cdpt += MAGICLC;
         } else if ((cdpt >= '0') && (cdpt <= '9')) {
-            cdpt = (cdpt - '0') + MAGGICD;
+            cdpt = (cdpt - '0') + MAGICD;
         }
 
         slen = utf8encode(cdpt, seq);
