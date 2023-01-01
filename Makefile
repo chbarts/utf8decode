@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-O3 -march=native -flto
 DEPS=utf8encode.h utf8decode.h parse_codepoint.h handle_ferr.h 
 
-all: codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768 fraktur fullwidth utf8char-add-offset
+all: codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768 fraktur fullwidth utf8char-add-offset monospace
 
 codepoint2utf8: codepoint2utf8.c parse_codepoint.c utf8encode.c
 	$(CC) -o codepoint2utf8 codepoint2utf8.c parse_codepoint.c utf8encode.c $(CFLAGS)
