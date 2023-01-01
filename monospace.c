@@ -4,9 +4,9 @@
 #include "utf8encode.h"
 #include "utf8decode.h"
 
-#define MAGICUC 120367
-#define MAGICLC 120352
-#define MAGICD  120774
+#define MAGICUC (0x1d670 - 'A')
+#define MAGICLC (0x1d68a - 'a')
+#define MAGICD  (0x1d7f6 - '0')
 
 static int undofile(FILE * inf)
 {
