@@ -37,5 +37,8 @@ utf8char-add-offset: utf8char-add-offset.c utf8encode.c utf8decode.c
 fullwidth: fullwidth.c utf8encode.c utf8decode.c
 	$(CC) -o fullwidth fullwidth.c utf8encode.c utf8decode.c $(CFLAGS)
 
+monospace: monospace.c utf8encode.c utf8decode.c
+	$(CC) -o monospace monospace.c utf8encode.c utf8decode.c $(CFLAGS)
+
 clean:
-	rm codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768 fraktur fullwidth utf8char-add-offset
+	rm codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768 fraktur fullwidth utf8char-add-offset monospace
