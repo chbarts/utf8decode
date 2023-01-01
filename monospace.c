@@ -4,9 +4,9 @@
 #include "utf8encode.h"
 #include "utf8decode.h"
 
-#define MAGICUC 0x1D670
-#define MAGICLC 0x1D68A
-#define MAGICD  0x1D7F6
+#define MAGICUC 120393
+#define MAGICLC 120361
+#define MAGICD  120774
 
 static int undofile(FILE * inf)
 {
@@ -25,7 +25,7 @@ static int undofile(FILE * inf)
             cdpt -= MAGICUC;
         } else if ((cdpt >= ('a' + MAGICLC)) && (cdpt <= ('z' + MAGICLC))) {
             cdpt -= MAGICLC;
-        } else if ((cdpt >= (0 + MAGICD)) && (cdpt <= (9 + MAGICD))) {
+        } else if ((cdpt >= ('0' + MAGICD)) && (cdpt <= ('9' + MAGICD))) {
             cdpt -= MAGICD;
         }
 
@@ -59,7 +59,7 @@ static int dofile(FILE * inf)
         } else if ((cdpt >= 'a') && (cdpt <= 'z')) {
             cdpt += MAGICLC;
         } else if ((cdpt >= '0') && (cdpt <= '9')) {
-            cdpt = (cdpt - '0') + MAGICD;
+            cdpt += MAGICD;
         }
 
         slen = utf8encode(cdpt, seq);
