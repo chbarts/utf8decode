@@ -59,8 +59,6 @@ static int dofile(FILE *inf)
       slen = utf8encode(cdpt, seq);
 
       fwrite(seq, 1, slen, stdout);
-
-      puts("");
    }
 
    if (feof(inf)) {
