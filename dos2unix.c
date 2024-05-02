@@ -30,12 +30,22 @@ static uint32_t table2[] = {
 
 static int dofile(FILE *inf)
 {
-   int slen, c;
+   int slen, c, d;
    uint32_t cdpt;
    uint8_t seq[6];
 
    while ((c = getc(inf)) != EOF) {
-      if (c <= 0x1f) {
+      if (0x0d == c) {
+         d = getc(inf);
+         if (0x0a == d) {
+            puts("");
+            continue;
+         } else {
+            cdpt = table1[c];
+            ungetc(d, inf);
+         }
+
+      } else if (c <= 0x1f) {
          cdpt = table1[c];
       } else if (c >= 0x80) {
          cdpt = table2[c];
