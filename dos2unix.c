@@ -56,8 +56,6 @@ static int dofile(FILE *inf)
          cdpt = c;
       }
 
-      printf("%x %x\n", c, cdpt);
-
       slen = utf8encode(cdpt, seq);
 
       fwrite(seq, 1, slen, stdout);
