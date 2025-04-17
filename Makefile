@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-O3 -march=native -flto
 DEPS=utf8encode.h utf8decode.h parse_codepoint.h handle_ferr.h 
 
-all: codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768 fraktur fullwidth utf8char-add-offset monospace dos2unix
+all: codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768 fraktur fullwidth utf8char-add-offset monospace dos2unix italics
 
 codepoint2utf8: codepoint2utf8.c parse_codepoint.c utf8encode.c
 	$(CC) -o codepoint2utf8 codepoint2utf8.c parse_codepoint.c utf8encode.c $(CFLAGS)
@@ -43,5 +43,8 @@ monospace: monospace.c utf8encode.c utf8decode.c
 dos2unix: dos2unix.c utf8encode.c
 	$(CC) -o dos2unix dos2unix.c utf8encode.c $(CFLAGS)
 
+italics: italics.c utf8encode.c utf8decode.c
+	$(CC) -o italics italics.c utf8encode.c utf8decode.c $(CFLAGS)
+
 clean:
-	rm codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768 fraktur fullwidth utf8char-add-offset monospace dos2unix
+	rm codepoint2utf8 codepoint-list codepoint-range utf8encode-test utf8file utf8parse isutf8 rot32768 fraktur fullwidth utf8char-add-offset monospace dos2unix italics
